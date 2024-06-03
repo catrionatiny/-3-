@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - เครื่องมือคำนวณภาษี 3 อย่าง</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เครื่องมือคำนวณภาษี</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f3e4;
+            color: #5c4033;
+            padding: 20px;
+        }
+        h1 {
+            color: #8b5e34;
+            text-align: center;
+        }
+        h2 {
+            color: #8b5e34;
+            margin-top: 0;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #8b5e34;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #d4a373;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #b97a56;
+        }
+        p {
+            margin: 5px 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .section {
+            background-color: #fffaf0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function calculateVAT() {
+            let salesAmount = parseFloat(document.getElementById('salesAmount').value);
+            let purchaseAmount = parseFloat(document.getElementById('purchaseAmount').value);
+            let vatRate = 0.07;
+            let outputVAT = salesAmount * vatRate;
+            let inputVAT = purchaseAmount * vatRate;
+            let vatPayable = outputVAT - inputVAT;
+            document.getElementById('outputVAT').innerText = outputVAT.toFixed(2) + ' บาท';
+            document.getElementById('inputVAT').innerText = inputVAT.toFixed(2) + ' บาท';
+            document.getElementById('vatPayable').innerText = vatPayable.toFixed(2) + ' บาท';
+        }
+
+        function calculateCorporateTax() {
+            let totalIncome = parseFloat(document.getElementById('totalIncome').value);
+            let totalExpenses = parseFloat(document.getElementById('totalExpenses').value);
+            let profit = totalIncome - totalExpenses;
+            let corporateTaxRate = 0.20;
+            let corporateTax = profit * corporateTaxRate;
+            document.getElementById('profit').innerText = profit.toFixed(2) + ' บาท';
+            document.getElementById('corporateTax').innerText = corporateTax.toFixed(2) + ' บาท';
+        }
+
+        function calculateWithholdingTax() {
+            let paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
+            let taxRate = parseFloat(document.getElementById('taxRate').value) / 100;
+            let withholdingTax = paymentAmount * taxRate;
+            let actualPayment = paymentAmount - withholdingTax;
+            document.getElementById('withholdingTax').innerText = withholdingTax.toFixed(2) + ' บาท';
+            document.getElementById('actualPayment').innerText = actualPayment.toFixed(2) + ' บาท';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>เครื่องมือคำนวณภาษี</h1>
+
+        <div class="section">
+            <h2>1. คำนวณภาษีมูลค่าเพิ่ม (VAT)</h2>
+            <label for="salesAmount">มูลค่าขาย:</label>
+            <input type="number" id="salesAmount"><br>
+            <label for="purchaseAmount">มูลค่าซื้อ:</label>
+            <input type="number" id="purchaseAmount"><br>
+            <button onclick="calculateVAT()">คำนวณภาษีมูลค่าเพิ่ม</button>
+            <p>ภาษีขาย: <span id="outputVAT"></span></p>
+            <p>ภาษีซื้อ: <span id="inputVAT"></span></p>
+            <p>ภาษีที่ต้องชำระ: <span id="vatPayable"></span></p><br>
+            <p><strong>เวลาที่ต้องชำระภาษี:</strong> ภายในวันที่ 15 ของเดือนถัดไป</p>
+        </div>
+
+        <div class="section">
+            <h2>2. คำนวณภาษีเงินได้นิติบุคคล</h2>
+            <label for="totalIncome">รายได้รวม:</label>
+            <input type="number" id="totalIncome"><br>
+            <label for="totalExpenses">ค่าใช้จ่ายรวม:</label>
+            <input type="number" id="totalExpenses"><br>
+            <button onclick="calculateCorporateTax()">คำนวณภาษีเงินได้นิติบุคคล</button>
+            <p>กำไร: <span id="profit"></span></p>
+            <p>ภาษีเงินได้นิติบุคคล: <span id="corporateTax"></span></p><br>
+            <p><strong>เวลาที่ต้องชำระภาษี:</strong> 
+                <br>ภาษีครึ่งปี (ภ.ง.ด. 51): ภายใน 2 เดือนหลังจากสิ้นครึ่งปีบัญชี
+                <br>ภาษีประจำปี (ภ.ง.ด. 50): ภายใน 150 วันหลังจากสิ้นรอบระยะเวลาบัญชี
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>3. คำนวณภาษีหัก ณ ที่จ่าย</h2>
+            <label for="paymentAmount">จำนวนเงินที่ชำระ:</label>
+            <input type="number" id="paymentAmount"><br>
+            <label for="taxRate">อัตราภาษี (%):</label>
+            <input type="number" id="taxRate"><br>
+            <button onclick="calculateWithholdingTax()">คำนวณภาษีหัก ณ ที่จ่าย</button>
+            <p>ภาษีหัก ณ ที่จ่าย: <span id="withholdingTax"></span></p>
+            <p>จำนวนเงินที่ชำระจริง: <span id="actualPayment"></span></p><br>
+            <p><strong>เวลาที่ต้องชำระภาษี:</strong> ภายในวันที่ 7 ของเดือนถัดไป</p>
+        </div>
+    </div>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
